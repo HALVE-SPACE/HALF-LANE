@@ -14,10 +14,8 @@
       background: #ffffff;
     }
 
-    header {
-      background: #0f172a;
-      color: #fff;
-    }
+    /* Header / Navigation */
+    header { background: #0f172a; color: #fff; }
     nav {
       max-width: 1000px;
       margin: 0 auto;
@@ -26,56 +24,27 @@
       justify-content: space-between;
       padding: 0.75rem 1rem;
     }
-    .brand {
-      font-weight: 700;
-      font-size: 1.125rem;
-      letter-spacing: 0.3px;
-    }
-    .menu {
-      list-style: none;
-      display: flex;
-      gap: 1rem;
-      margin: 0;
-      padding: 0;
-    }
+    .brand { font-weight: 700; font-size: 1.125rem; letter-spacing: 0.3px; }
+    .menu { list-style: none; display: flex; gap: 1rem; margin: 0; padding: 0; }
     .menu a {
-      color: #e5e7eb;
-      text-decoration: none;
-      padding: 0.5rem 0.75rem;
-      border-radius: 0.5rem;
-      transition: background 0.2s, color 0.2s;
+      color: #e5e7eb; text-decoration: none; padding: 0.5rem 0.75rem;
+      border-radius: 0.5rem; transition: background 0.2s, color 0.2s;
     }
-    .menu a:hover,
-    .menu a:focus {
-      background: #1f2937;
-      color: #ffffff;
-      outline: none;
-    }
+    .menu a:hover, .menu a:focus { background: #1f2937; color: #ffffff; outline: none; }
 
-    main {
-      max-width: 1000px;
-      margin: 1.5rem auto;
-      padding: 0 1rem;
-    }
+    /* Main layout */
+    main { max-width: 1000px; margin: 1.5rem auto; padding: 0 1rem; }
+    h1 { margin-top: 0.5rem; }
 
+    /* Hero image */
     .hero {
-      margin: 1rem 0 2rem;
-      border-radius: 12px;
-      overflow: hidden;
-      border: 1px solid #e5e7eb;
-      background: #f8fafc;
+      margin: 1rem 0 2rem; border-radius: 12px; overflow: hidden;
+      border: 1px solid #e5e7eb; background: #f8fafc;
     }
-    .hero img {
-      display: block;
-      width: 100%;
-      height: auto;
-    }
-    .caption {
-      font-size: 0.9rem;
-      color: #6b7280;
-      padding: 0.5rem 0.75rem 0.75rem;
-    }
+    .hero img { display: block; width: 100%; height: auto; }
+    .caption { font-size: 0.9rem; color: #6b7280; padding: 0.5rem 0.75rem 0.75rem; }
 
+    /* Features row: list + black square */
     .features-grid {
       display: grid;
       grid-template-columns: 1fr auto;
@@ -84,33 +53,27 @@
       margin-top: 0.5rem;
     }
 
-    /* Direct black square (no red box container) */
+    /* Black square (no red box) */
     .black-square {
-      width: 60px;
-      height: 60px;
-      background: #000;
-      border-radius: 2px;
+      width: 60px; height: 60px; background: #000; border-radius: 2px;
 
-      /* animation flick effect */
+      /* random flick offset applied here */
       transform: translateX(var(--dx, 0px));
       transition: transform 120ms ease-in-out;
     }
 
+    /* Respect reduced motion */
     @media (prefers-reduced-motion: reduce) {
-      .black-square {
-        transition: none !important;
-        transform: none !important;
-      }
+      .black-square { transition: none !important; transform: none !important; }
     }
 
+    /* Footer */
     footer {
-      border-top: 1px solid #e5e7eb;
-      color: #6b7280;
-      max-width: 1000px;
-      margin: 2rem auto;
-      padding: 1rem;
+      border-top: 1px solid #e5e7eb; color: #6b7280;
+      max-width: 1000px; margin: 2rem auto; padding: 1rem;
     }
 
+    /* Responsive */
     @media (max-width: 520px) {
       nav { flex-wrap: wrap; gap: 0.5rem; }
       .menu { width: 100%; justify-content: space-between; }
@@ -123,10 +86,10 @@
     <nav aria-label="Primary">
       <div class="brand">MySite</div>
       <ul class="menu">
-        <li>#homeHome</a></li>
-        <li>#featuresFeatures</a></li>
-        <li>#galleryGallery</a></li>
-        <li>#contactContact</a></li>
+        <li><a href="#home">Home</a></li>
+        <li><a href="#features">Features</a></li>
+        <li><a href="#gallery">Gallery</a></li>
+        <li><a href="#contact">Contact</a></li>
       </ul>
     </nav>
   </header>
@@ -136,7 +99,8 @@
     <p>This is some sample text on the page. Use the navigation above to explore different sections.</p>
 
     <section id="gallery" class="hero" aria-labelledby="hero-title">
-      https://via.placeholder.com/1000x450.png?text=Your+Image+Here
+      <img src="https://via.placeholder.com/1000x450.png?text=Your+Image+Here"
+           alt="Sample banner placeholder" />
       <div class="caption" id="hero-title">A descriptive caption for your image goes here.</div>
     </section>
 
@@ -150,7 +114,7 @@
           <li>Accessible image with alt text</li>
         </ul>
 
-        <!-- Black square directly placed, red box removed -->
+        <!-- Black square directly placed -->
         <div class="black-square" aria-hidden="true"></div>
       </div>
     </section>
@@ -166,10 +130,10 @@
   </footer>
 
   <script>
-    // Set footer year
+    // Footer year
     document.getElementById('year').textContent = new Date().getFullYear();
 
-    // Flick animation
+    // Random left/right flick animation for the black square
     (function () {
       const square = document.querySelector('.black-square');
       if (!square) return;
@@ -177,25 +141,30 @@
       const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
       if (reduceMotion.matches) return;
 
+      // Config
       const MAX_OFFSET_PX = 6;
       const MIN_INTERVAL_MS = 180;
       const MAX_INTERVAL_MS = 360;
 
-      function random(min, max) {
-        return Math.random() * (max - min) + min;
-      }
+      const random = (min, max) => Math.random() * (max - min) + min;
 
-      function flick() {
-        const delay = random(MIN_INTERVALMS, MAX_INTERVAL_MS);
+      function schedule() {
+        const delay = random(MIN_INTERVAL_MS, MAX_INTERVAL_MS); // <-- fixed
         setTimeout(() => {
-          const dx = (Math.random() * 2 - 1) * MAX_OFFSET_PX;
+          const dx = (Math.random() * 2 - 1) * MAX_OFFSET_PX;   // -MAX..+MAX
           square.style.setProperty('--dx', dx.toFixed(2) + 'px');
-          flick();
+          schedule();
         }, delay);
       }
 
-      flick();
+      schedule();
+
+      // If reduced motion toggles while open, reset position
+      const onChange = (e) => { if (e.matches) square.style.removeProperty('--dx'); };
+      if (reduceMotion.addEventListener) reduceMotion.addEventListener('change', onChange);
+      else if (reduceMotion.addListener) reduceMotion.addListener(onChange); // Safari legacy
     })();
   </script>
 </body>
 </html>
+``
