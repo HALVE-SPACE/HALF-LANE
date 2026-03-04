@@ -89,6 +89,34 @@
       nav { flex-wrap: wrap; gap: 0.5rem; }
       .menu { width: 100%; justify-content: space-between; }
     }
+    /* Layout for the Features row (list on left, box on right) */
+    .features-grid {
+      display: grid;
+      grid-template-columns: 1fr auto; /* list grows, box stays sized */
+      align-items: start;
+      gap: 1.5rem;
+    }
+    
+    /* The red box container */
+    .red-box {
+      width: 260px;              /* match your screenshot’s proportions */
+      height: 110px;
+      border: 2px solid #ef4444; /* red border */
+      border-radius: 4px;
+      position: relative;        /* enables absolute centering of the square */
+      background: #fff;          /* keep background white */
+    }
+    
+    /* The centered black square */
+    .red-box .black-square {
+      width: 60px;
+      height: 60px;
+      background: #000;          /* solid black */
+      position: absolute;
+      inset: 0;                  /* top/right/bottom/left: 0 */
+      margin: auto;              /* centers inside the red box */
+      border-radius: 2px;        /* optional: small rounding */
+    }
   </style>
 </head>
 <body>
@@ -119,11 +147,20 @@
 
     <section id="features">
       <h2>Features</h2>
-      <ul>
-        <li>Clean navigation menu</li>
-        <li>Responsive layout</li>
-        <li>Accessible image with alt text</li>
-      </ul>
+    
+      <div class="features-grid">
+        <!-- Left column: your list -->
+        <ul>
+          <li>Clean navigation menu</li>
+          <li>Responsive layout</li>
+          <li>Accessible image with alt text</li>
+        </ul>
+    
+        <!-- Right column: red box with a black square inside -->
+        <div class="red-box" role="img" aria-label="Black square centered inside a red outlined box">
+          <div class="black-square" aria-hidden="true"></div>
+        </div>
+      </div>
     </section>
 
     <section id="contact">
