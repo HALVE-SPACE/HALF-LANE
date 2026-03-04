@@ -100,9 +100,18 @@
       margin-top: 0.5rem;
     }
 
-    /* black square */
-    .black-square {
-      width: 120px;
+    .red-box {
+      width: 260px;                /* adjust to taste */
+      height: 110px;
+      border: 2px solid #ef4444;   /* red border */
+      border-radius: 4px;
+      position: relative;          /* for absolute centering inside */
+      background: #fff;
+    }
+
+    /* Centered black square */
+    .red-box .black-square {
+      width: 60px;
       height: 60px;
       background: #000;
       position: absolute;
@@ -121,3 +130,133 @@
         transition: none !important;
         transform: none !important;
       }
+    }
+
+    /* -------------------------
+       Footer
+    --------------------------*/
+    footer {
+      border-top: 1px solid #e5e7eb;
+      color: #6b7280;
+      max-width: 1000px;
+      margin: 2rem auto;
+      padding: 1rem;
+    }
+
+    /* -------------------------
+       Responsive tweaks
+    --------------------------*/
+    @media (max-width: 520px) {
+      nav { flex-wrap: wrap; gap: 0.5rem; }
+      .menu { width: 100%; justify-content: space-between; }
+      .features-grid { grid-template-columns: 1fr; }
+      .red-box { justify-self: start; } /* or center with: justify-self: center; */
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <nav aria-label="Primary">
+      <div class="brand">MySite</div>
+      <ul class="menu">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#features">Features</a></li>
+        <li><a href="#gallery">Gallery</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="home">
+    <h1>Welcome to My Webpage</h1>
+    <p>This is some sample text on the page. Use the navigation above to explore different sections.</p>
+
+    <section id="gallery" class="hero" aria-labelledby="hero-title">
+      <!-- Replace the src below with your own image path or URL -->
+      <img
+        src="https://via.placeholder.com/1000x450.png?text=Your+Image+Here"
+        alt="Sample banner placeholder demonstrating where your image will appear." />
+      <div class="caption" id="hero-title">A descriptive caption for your image goes here.</div>
+    </section>
+
+    <section id="features">
+      <h2>Features</h2>
+
+      <div class="features-grid">
+        <!-- Left column: your list -->
+        <ul>
+          <li>Clean navigation menu</li>
+          <li>Responsive layout</li>
+          <li>Accessible image with alt text</li>
+        </ul>
+
+        <!-- Right column: red box with a black square inside -->
+        <div class="red-box" role="img" aria-label="Black square centered inside a red outlined box">
+          <div class="black-square" aria-hidden="true"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact">
+      <h2>Contact</h2>
+      <p>Have questions? Add your contact details here.</p>
+    </section>
+  </main>
+
+  <footer>
+    © <span id="year"></span> MySite. All rights reserved.
+  </footer>
+
+  <script>
+    // Set current year automatically
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Random left/right "flick" animation for the black square
+    (function () {
+      const square = document.querySelector('.red-box .black-square');
+      if (!square) return;
+
+      // Respect prefers-reduced-motion
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+      if (reduceMotion.matches) return;
+
+      // Configuration
+      const MAX_OFFSET_PX = 6;     // maximum absolute horizontal shift in px
+      const MIN_INTERVAL_MS = 180; // minimum time between flicks
+      const MAX_INTERVAL_MS = 360; // maximum time between flicks
+
+      function randomInRange(min, max) {
+        return Math.random() * (max - min) + min;
+      }
+
+      function scheduleNextFlick() {
+        const delay = randomInRange(MIN_INTERVAL_MS, MAX_INTERVAL_MS);
+        setTimeout(() => {
+          // New offset between -MAX_OFFSET_PX and +MAX_OFFSET_PX
+          const dx = (Math.random() * 2 - 1) * MAX_OFFSET_PX;
+          square.style.setProperty('--dx', dx.toFixed(2) + 'px');
+          scheduleNextFlick();
+        }, delay);
+      }
+
+      scheduleNextFlick();
+
+      // If the user toggles reduced motion while the page is open, reset position.
+      if (reduceMotion.addEventListener) {
+        reduceMotion.addEventListener('change', (e) => {
+          if (e.matches) {
+            square.style.removeProperty('--dx');
+          }
+        });
+      } else if (reduceMotion.addListener) {
+        // Legacy Safari
+        reduceMotion.addListener((e) => {
+          if (e.matches) {
+            square.style.removeProperty('--dx');
+          }
+        });
+      }
+    })();
+  </script>
+</body>
+</html>
