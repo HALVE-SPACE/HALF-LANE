@@ -5,9 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>My Webpage with Nav, Image, and Animated Square</title>
   <style>
-    /* -------------------------
-       Base styles
-    --------------------------*/
     * { box-sizing: border-box; }
     body {
       margin: 0;
@@ -17,11 +14,8 @@
       background: #ffffff;
     }
 
-    /* -------------------------
-       Header / Navigation
-    --------------------------*/
     header {
-      background: #0f172a; /* dark slate */
+      background: #0f172a;
       color: #fff;
     }
     nav {
@@ -58,19 +52,12 @@
       outline: none;
     }
 
-    /* -------------------------
-       Main content layout
-    --------------------------*/
     main {
       max-width: 1000px;
       margin: 1.5rem auto;
       padding: 0 1rem;
     }
-    h1 { margin-top: 0.5rem; }
 
-    /* -------------------------
-       Hero image block
-    --------------------------*/
     .hero {
       margin: 1rem 0 2rem;
       border-radius: 12px;
@@ -89,52 +76,33 @@
       padding: 0.5rem 0.75rem 0.75rem;
     }
 
-    /* -------------------------
-       Features row: list + red box
-    --------------------------*/
     .features-grid {
       display: grid;
-      grid-template-columns: 1fr auto; /* list grows, box sized */
+      grid-template-columns: 1fr auto;
       align-items: start;
       gap: 1.5rem;
       margin-top: 0.5rem;
     }
 
-    .red-box {
-      width: 260px;                /* adjust to taste */
-      height: 110px;
-      border: 2px solid #ef4444;   /* red border */
-      border-radius: 4px;
-      position: relative;          /* for absolute centering inside */
-      background: #fff;
-    }
-
-    /* Centered black square */
-    .red-box .black-square {
+    /* Direct black square (no red box container) */
+    .black-square {
       width: 60px;
       height: 60px;
       background: #000;
-      position: absolute;
-      inset: 0; /* top/right/bottom/left: 0 */
-      margin: auto;
       border-radius: 2px;
 
-      /* --- Flick (random jitter) animation via CSS var --- */
+      /* animation flick effect */
       transform: translateX(var(--dx, 0px));
       transition: transform 120ms ease-in-out;
     }
 
-    /* If user prefers reduced motion, keep it still */
     @media (prefers-reduced-motion: reduce) {
-      .red-box .black-square {
+      .black-square {
         transition: none !important;
         transform: none !important;
       }
     }
 
-    /* -------------------------
-       Footer
-    --------------------------*/
     footer {
       border-top: 1px solid #e5e7eb;
       color: #6b7280;
@@ -143,14 +111,10 @@
       padding: 1rem;
     }
 
-    /* -------------------------
-       Responsive tweaks
-    --------------------------*/
     @media (max-width: 520px) {
       nav { flex-wrap: wrap; gap: 0.5rem; }
       .menu { width: 100%; justify-content: space-between; }
       .features-grid { grid-template-columns: 1fr; }
-      .red-box { justify-self: start; } /* or center with: justify-self: center; */
     }
   </style>
 </head>
@@ -159,10 +123,10 @@
     <nav aria-label="Primary">
       <div class="brand">MySite</div>
       <ul class="menu">
-        <li><a href="#home">Home</a></li>
-        <li><a href="#features">Features</a></li>
-        <li><a href="#gallery">Gallery</a></li>
-        <li><a href="#contact">Contact</a></li>
+        <li>#homeHome</a></li>
+        <li>#featuresFeatures</a></li>
+        <li>#galleryGallery</a></li>
+        <li>#contactContact</a></li>
       </ul>
     </nav>
   </header>
@@ -172,10 +136,7 @@
     <p>This is some sample text on the page. Use the navigation above to explore different sections.</p>
 
     <section id="gallery" class="hero" aria-labelledby="hero-title">
-      <!-- Replace the src below with your own image path or URL -->
-      <img
-        src="https://via.placeholder.com/1000x450.png?text=Your+Image+Here"
-        alt="Sample banner placeholder demonstrating where your image will appear." />
+      https://via.placeholder.com/1000x450.png?text=Your+Image+Here
       <div class="caption" id="hero-title">A descriptive caption for your image goes here.</div>
     </section>
 
@@ -183,17 +144,14 @@
       <h2>Features</h2>
 
       <div class="features-grid">
-        <!-- Left column: your list -->
         <ul>
           <li>Clean navigation menu</li>
           <li>Responsive layout</li>
           <li>Accessible image with alt text</li>
         </ul>
 
-        <!-- Right column: red box with a black square inside -->
-        <div class="red-box" role="img" aria-label="Black square centered inside a red outlined box">
-          <div class="black-square" aria-hidden="true"></div>
-        </div>
+        <!-- Black square directly placed, red box removed -->
+        <div class="black-square" aria-hidden="true"></div>
       </div>
     </section>
 
@@ -208,54 +166,35 @@
   </footer>
 
   <script>
-    // Set current year automatically
+    // Set footer year
     document.getElementById('year').textContent = new Date().getFullYear();
 
-    // Random left/right "flick" animation for the black square
+    // Flick animation
     (function () {
-      const square = document.querySelector('.red-box .black-square');
+      const square = document.querySelector('.black-square');
       if (!square) return;
 
-      // Respect prefers-reduced-motion
       const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
       if (reduceMotion.matches) return;
 
-      // Configuration
-      const MAX_OFFSET_PX = 6;     // maximum absolute horizontal shift in px
-      const MIN_INTERVAL_MS = 180; // minimum time between flicks
-      const MAX_INTERVAL_MS = 360; // maximum time between flicks
+      const MAX_OFFSET_PX = 6;
+      const MIN_INTERVAL_MS = 180;
+      const MAX_INTERVAL_MS = 360;
 
-      function randomInRange(min, max) {
+      function random(min, max) {
         return Math.random() * (max - min) + min;
       }
 
-      function scheduleNextFlick() {
-        const delay = randomInRange(MIN_INTERVAL_MS, MAX_INTERVAL_MS);
+      function flick() {
+        const delay = random(MIN_INTERVALMS, MAX_INTERVAL_MS);
         setTimeout(() => {
-          // New offset between -MAX_OFFSET_PX and +MAX_OFFSET_PX
           const dx = (Math.random() * 2 - 1) * MAX_OFFSET_PX;
           square.style.setProperty('--dx', dx.toFixed(2) + 'px');
-          scheduleNextFlick();
+          flick();
         }, delay);
       }
 
-      scheduleNextFlick();
-
-      // If the user toggles reduced motion while the page is open, reset position.
-      if (reduceMotion.addEventListener) {
-        reduceMotion.addEventListener('change', (e) => {
-          if (e.matches) {
-            square.style.removeProperty('--dx');
-          }
-        });
-      } else if (reduceMotion.addListener) {
-        // Legacy Safari
-        reduceMotion.addListener((e) => {
-          if (e.matches) {
-            square.style.removeProperty('--dx');
-          }
-        });
-      }
+      flick();
     })();
   </script>
 </body>
